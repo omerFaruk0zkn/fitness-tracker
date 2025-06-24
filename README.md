@@ -1,6 +1,8 @@
 # 🏃‍♂️ Fitness Tracker
 
 **Fitness Tracker**, MongoDB–Express–React–Node (MERN) teknolojileri ile geliştirilmiş, kullanıcıların fitness verilerini (kalori, kilo, bölge ölçümleri vb.) takip etmelerini sağlayan, bir web uygulamasıdır.
+---
+
 🔗 [Canlı Uygulama](https://fitness-tracker-34b9.onrender.com)
 
 ---
