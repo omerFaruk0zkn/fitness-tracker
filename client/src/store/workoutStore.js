@@ -13,7 +13,10 @@ export const useWorkoutStore = create((set) => ({
     try {
       const res = await api.post("/workouts", formData);
       toast.success(res.data.message);
-      set({ workout: res.data.workout });
+
+      set(() => ({
+        workout: res.data.workout,
+      }));
     } catch (error) {
       toast.error(error?.response?.data?.message);
     } finally {
@@ -27,11 +30,11 @@ export const useWorkoutStore = create((set) => ({
     try {
       const res = await api.put("/workouts", formData);
       toast.success(res.data.message);
-      if (res.data.workout.exercises.length === 0) {
-        set({ workout: null });
-      } else {
-        set({ workout: res.data.workout });
-      }
+
+      set(() => ({
+        workout:
+          res.data.workout.exercises.length > 0 ? res.data.workout : null,
+      }));
     } catch (error) {
       toast.error(error?.response?.data?.message);
     } finally {
@@ -62,11 +65,19 @@ export const useWorkoutStore = create((set) => ({
     try {
       const res = await api.put(`/workouts/${date}/${exerciseId}`);
       toast.success(res.data.message);
-      if (res.data.workout.exercises.length === 0) {
-        set({ workout: null });
-      } else {
-        set({ workout: res.data.workout });
-      }
+
+      set((state) => {
+        if (!state.workout) return {};
+        const updatedExercises = state.workout.exercises.filter(
+          (e) => e.exerciseId._id !== exerciseId
+        );
+
+        return {
+          workout: updatedExercises.length
+            ? { ...state.workout, exercises: updatedExercises }
+            : null,
+        };
+      });
     } catch (error) {
       toast.error(error?.response?.data?.message);
     } finally {
@@ -82,6 +93,19 @@ export const useWorkoutStore = create((set) => ({
         exerciseId,
       });
       toast.success(res.data.message);
+
+      set((state) => {
+        if (!state.workout) return {};
+        const updatedExercises = state.workout.exercises.map((exercise) =>
+          exercise.exerciseId._id === exerciseId
+            ? { ...exercise, completedSets: exercise.completedSets + 1 }
+            : exercise
+        );
+
+        return {
+          workout: { ...state.workout, exercises: updatedExercises },
+        };
+      });
     } catch (error) {
       toast.error(error?.response?.data?.message);
     } finally {

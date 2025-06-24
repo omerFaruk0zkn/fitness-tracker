@@ -1,4 +1,5 @@
 import { ArrowBigRightDash, Trash, X } from "lucide-react";
+import { Button } from "../ui/button";
 import {
   Card,
   CardAction,
@@ -22,22 +23,16 @@ import {
 import { Badge } from "../ui/badge";
 import { useWorkoutStore } from "@/store/workoutStore";
 import ReactPlayer from "react-player";
-import { Button } from "../ui/button";
 
 const WorkoutCard = ({ exercise, date, workoutId }) => {
-  const { deleteWokoutItem, getWorkoutByDate, updateProgress } =
-    useWorkoutStore();
+  const { deleteWokoutItem, updateProgress } = useWorkoutStore();
 
   const handleDelete = () => {
-    deleteWokoutItem(date, exercise.exerciseId._id).then(async () => {
-      await getWorkoutByDate(date);
-    });
+    deleteWokoutItem(date, exercise.exerciseId._id);
   };
 
   const handleProgress = () => {
-    updateProgress(workoutId, exercise.exerciseId._id).then(() => {
-      getWorkoutByDate(date);
-    });
+    updateProgress(workoutId, exercise.exerciseId._id);
   };
 
   return (

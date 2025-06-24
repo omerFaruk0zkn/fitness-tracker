@@ -13,7 +13,7 @@ createRoot(document.getElementById("root")).render(
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <BrowserRouter>
         <App />
-        <Toaster richColors />
+        <Toaster richColors closeButton duration={3000} />
       </BrowserRouter>
     </ThemeProvider>
   </StrictMode>

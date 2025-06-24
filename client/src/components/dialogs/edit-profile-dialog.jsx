@@ -23,7 +23,7 @@ const editProfileSchema = Yup.object({
 });
 
 const EditProfileDialog = ({ openEditDialog, setOpenEditDialog }) => {
-  const { checkAuth, user } = useAuthStore();
+  const { user, setUser } = useAuthStore();
   const { progresses } = useProgressStore();
   const { editProfile } = useUserStore();
 
@@ -65,8 +65,10 @@ const EditProfileDialog = ({ openEditDialog, setOpenEditDialog }) => {
       formData.append("weight", values.weight);
     }
 
-    editProfile(formData).then(() => {
-      checkAuth();
+    editProfile(formData).then((updatedUser) => {
+      if (updatedUser) {
+        setUser(updatedUser);
+      }
       actions.setSubmitting(false);
       setOpenEditDialog(false);
     });

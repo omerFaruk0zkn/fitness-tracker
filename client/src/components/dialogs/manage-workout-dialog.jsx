@@ -32,8 +32,7 @@ const ManageWorkoutDialog = ({
   openManageWorkoutDialog,
   setOpenManageWorkoutDialog,
 }) => {
-  const { workout, addWorkout, updateWorkout, getWorkoutByDate } =
-    useWorkoutStore();
+  const { workout, addWorkout, updateWorkout } = useWorkoutStore();
   const { exercises, getAllExercise } = useExerciseStore();
   const today = format(new Date(), "yyyy-MM-dd");
   const isEdit = Boolean(workout);
@@ -65,13 +64,11 @@ const ManageWorkoutDialog = ({
   const handleManageWorkout = (values, actions) => {
     if (isEdit) {
       updateWorkout(values).then(() => {
-        getWorkoutByDate(today);
         actions.setSubmitting(false);
         setOpenManageWorkoutDialog(false);
       });
     } else {
-      addWorkout(values).then(async () => {
-        await getWorkoutByDate(today);
+      addWorkout(values).then(() => {
         actions.setSubmitting(false);
         actions.resetForm();
         setOpenManageWorkoutDialog(false);

@@ -4,6 +4,7 @@ import { create } from "zustand";
 
 export const useProgressStore = create((set) => ({
   progresses: [],
+  isFetching: false,
   loading: false,
 
   createProgress: async (formData) => {
@@ -23,7 +24,7 @@ export const useProgressStore = create((set) => ({
   },
 
   getProgressData: async () => {
-    set({ loading: true });
+    set({ isFetching: true });
 
     try {
       const res = await api.get("/progress");
@@ -31,7 +32,7 @@ export const useProgressStore = create((set) => ({
     } catch (error) {
       toast.error(error?.response?.data?.message);
     } finally {
-      set({ loading: false });
+      set({ isFetching: false });
     }
   },
 

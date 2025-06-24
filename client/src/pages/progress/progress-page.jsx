@@ -56,7 +56,7 @@ const ProgressPage = () => {
     updateProgress,
     deleteProgress,
     exportProgressToPDF,
-    loading,
+    isFetching,
   } = useProgressStore();
   const [deleteId, setDeleteId] = useState(null);
   const [editingProgress, setEditingProgress] = useState(null);
@@ -123,7 +123,7 @@ const ProgressPage = () => {
     link.remove();
   };
 
-  if (loading) return <ProgressSkeleton />;
+  if (isFetching) return <ProgressSkeleton />;
 
   return (
     <div className="p-4 max-w-4xl mx-auto space-y-6">

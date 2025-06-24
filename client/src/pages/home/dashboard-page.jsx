@@ -35,7 +35,7 @@ const getBmiCategory = (bmi) => {
 const DashboardPage = () => {
   const { user, setUser } = useAuthStore();
   const { editProfile } = useUserStore();
-  const { progresses, getProgressData, loading } = useProgressStore();
+  const { progresses, getProgressData, isFetching } = useProgressStore();
   const [showCompletionAlert, setShowCompletionAlert] = useState(false);
 
   const lastProgress = progresses[progresses.length - 1];
@@ -79,7 +79,7 @@ const DashboardPage = () => {
     }
   }, [progress, handleGoalCompletion]);
 
-  if (loading) return <DashboardSkeleton />;
+  if (isFetching) return <DashboardSkeleton />;
 
   return (
     <div className="p-4 space-y-10">

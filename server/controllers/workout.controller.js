@@ -9,11 +9,18 @@ export const createWorkout = asyncHandler(async (req, res) => {
   const exists = await Workout.findOne({ userId: req.user._id, date });
   if (exists) throw new AppError(400, "Bu tarihte zaten bir antrenman var");
 
-  const workout = await Workout.create({
+  await Workout.create({
     userId: req.user._id,
     date,
     exercises,
   });
+
+  const workout = await Workout.findOne({
+    userId: req.user._id,
+    date,
+  })
+    .populate("exercises.exerciseId")
+    .lean();
 
   res.status(201).json({ message: "Antrenman oluşturuldu", workout });
 });
@@ -62,7 +69,16 @@ export const updateWorkout = asyncHandler(async (req, res) => {
   workout.exercises = updatedExercises;
   await workout.save();
 
-  res.status(201).json({ message: "Antrenman güncellendi", workout });
+  const updatedWorkout = await Workout.findOne({
+    userId: req.user._id,
+    date,
+  })
+    .populate("exercises.exerciseId")
+    .lean();
+
+  res
+    .status(201)
+    .json({ message: "Antrenman güncellendi", workout: updatedWorkout });
 });
 
 export const deleteWorkoutItem = asyncHandler(async (req, res) => {
@@ -90,7 +106,9 @@ export const getWorkoutByDate = asyncHandler(async (req, res) => {
   const workout = await Workout.findOne({
     userId: req.user._id,
     date,
-  }).populate("exercises.exerciseId");
+  })
+    .populate("exercises.exerciseId")
+    .lean();
   if (!workout) throw new AppError(404, "Antrenman bulunamadı");
 
   res.status(200).json(workout);

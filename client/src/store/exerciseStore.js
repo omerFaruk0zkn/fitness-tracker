@@ -6,6 +6,7 @@ export const useExerciseStore = create((set) => ({
   exercises: [],
   loading: false,
   isAddedExercise: false,
+  isDeletedExercise: false,
 
   addExercise: async (formData) => {
     set({ isAddedExercise: true });
@@ -41,7 +42,7 @@ export const useExerciseStore = create((set) => ({
   },
 
   deleteExerciseById: async (exerciseId) => {
-    set({ loading: true });
+    set({ isDeletedExercise: true });
 
     try {
       const res = await api.delete(`/exercises/${exerciseId}`);
@@ -55,7 +56,7 @@ export const useExerciseStore = create((set) => ({
     } catch (error) {
       toast.error(error?.response?.data?.message);
     } finally {
-      set({ loading: false });
+      set({ isDeletedExercise: false });
     }
   },
 }));

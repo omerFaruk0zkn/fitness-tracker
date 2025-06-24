@@ -52,7 +52,7 @@ const chartFields = [
 ];
 
 const ChartsPage = () => {
-  const { progresses, getProgressData, loading } = useProgressStore();
+  const { progresses, getProgressData, isFetching } = useProgressStore();
 
   const sortedProgresses = [...progresses].sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
@@ -62,7 +62,7 @@ const ChartsPage = () => {
     getProgressData();
   }, [getProgressData]);
 
-  if (loading) return <ChartsSkeleton />;
+  if (isFetching) return <ChartsSkeleton />;
 
   return (
     <div className="p-4 space-y-6">
