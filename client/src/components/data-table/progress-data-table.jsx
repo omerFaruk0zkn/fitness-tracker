@@ -33,42 +33,42 @@ const progressColumns = (onEdit, onDelete) => [
   },
   {
     accessorKey: "shoulder",
-    header: "Omuz",
+    header: "Omuz (cm)",
     cell: ({ row }) => formatNumber(row.getValue("shoulder")),
   },
   {
     accessorKey: "chest",
-    header: "Göğüs",
+    header: "Göğüs (cm)",
     cell: ({ row }) => formatNumber(row.getValue("chest")),
   },
   {
     accessorKey: "waist",
-    header: "Bel",
+    header: "Bel (cm)",
     cell: ({ row }) => formatNumber(row.getValue("waist")),
   },
   {
     accessorKey: "hip",
-    header: "Kalça",
+    header: "Kalça (cm)",
     cell: ({ row }) => formatNumber(row.getValue("hip")),
   },
   {
     accessorKey: "arm_right",
-    header: "Sağ Kol",
+    header: "Sağ Kol (cm)",
     cell: ({ row }) => formatNumber(row.getValue("arm_right")),
   },
   {
     accessorKey: "arm_left",
-    header: "Sol Kol",
+    header: "Sol Kol (cm)",
     cell: ({ row }) => formatNumber(row.getValue("arm_left")),
   },
   {
     accessorKey: "leg",
-    header: "Bacak",
+    header: "Bacak (cm)",
     cell: ({ row }) => formatNumber(row.getValue("leg")),
   },
   {
     accessorKey: "abdominal",
-    header: "Karın",
+    header: "Karın (cm)",
     cell: ({ row }) => formatNumber(row.getValue("abdominal")),
   },
   {

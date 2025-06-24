@@ -47,12 +47,12 @@ const DashboardPage = () => {
   const totalToLose = startWeight - targetWeight;
   const lostSoFar = startWeight - currentWeight;
 
-  const progress = (lostSoFar / totalToLose) * 100;
+  const rawProgress = (lostSoFar / totalToLose) * 100;
+  const progress = Math.min(Math.max(rawProgress, 0), 100);
 
   // BMI hesap
   const heightInMeters = user?.height / 100;
   const bmi = currentWeight / (heightInMeters * heightInMeters);
-  console.log(typeof bmi);
   const bmiCategory = getBmiCategory(bmi);
 
   const minIdealWeight = 18.5 * (heightInMeters * heightInMeters);
@@ -76,8 +76,10 @@ const DashboardPage = () => {
     if (progress === 100) {
       setShowCompletionAlert(true);
       handleGoalCompletion();
+    } else if (lastProgress?.weight > user?.weight) {
+      handleGoalCompletion();
     }
-  }, [progress, handleGoalCompletion]);
+  }, [progress, handleGoalCompletion, lastProgress?.weight, user?.weight]);
 
   if (isFetching) return <DashboardSkeleton />;
 
@@ -116,7 +118,8 @@ const DashboardPage = () => {
         {user?.target_weight && user?.weight !== user?.target_weight ? (
           <div className="flex flex-col sm:flex-row sm:items-center gap-2">
             <div className="text-sm text-muted-foreground">
-              Mevcut kilo: {currentWeight} kg &rarr; Hedef: {targetWeight} kg
+              Mevcut kilo: {currentWeight ? currentWeight : user?.weight} kg
+              &rarr; Hedef: {targetWeight} kg
             </div>
             <div className="flex flex-1 items-center gap-2">
               <Progress value={progress} className="flex-1" />
