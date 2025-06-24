@@ -10,13 +10,13 @@
 ## 📋 İçindekiler
 - [Özellikler](#özellikler)  
 - [Teknolojiler](#teknolojiler)  
-- [Proje Yapısı](#proje-yapısı)  
-- [Kurulum & Çalıştırma](#kurulum--çalıştırma)  
-- [Test & Geliştirme](#test--geliştirme)  
+- [Proje Yapısı](#proje-yapisi)  
+- [Kurulum & Çalıştırma](#kurulum-ve-calistirma)  
+- [Test & Geliştirme](#test-ve-gelistirme)  
 
 ---
 
-## ✨ Özellikler
+## ✨ Özellikler <a id="özellikler"></a>
 
 - Kullanıcı kaydı, giriş ve JWT tabanlı güvenlik
 - Egzersiz türü (bölge bölge), tarih, açıklama gibi detaylarla eklenebilir egzersizler
@@ -26,7 +26,7 @@
 
 ---
 
-## 🚀 Teknolojiler
+## 🚀 Teknolojiler <a id="teknolojiler"></a>
 
 - **Frontend**: React, Tailwind CSS, Shadcn, Vite
 - **Backend**: Node.js, Express.js
@@ -36,7 +36,7 @@
 
 ---
 
-## 📁 Proje Yapısı
+## 📁 Proje Yapısı <a id="proje-yapisi"></a>
 
 ```
 fitness-tracker/
@@ -68,7 +68,7 @@ fitness-tracker/
 
 ---
 
-## ⚙️ Kurulum ve Çalıştırma
+## ⚙️ Kurulum ve Çalıştırma <a id="kurulum-ve-calistirma"></a>
 
 ### 1. Depoyu Klonlayın
 
@@ -110,7 +110,7 @@ npm run dev
 
 ---
 
-## 🧪 Test ve Geliştirme
+## 🧪 Test ve Geliştirme <a id="test-ve-gelistirme"></a>
 
 - **Geliştirme Ortamı**: Vite ile hızlı geliştirme ve sıcak yeniden yükleme.
 - **Hata Ayıklama**: Hem istemci hem de sunucu tarafında kapsamlı hata ayıklama araçları.
