@@ -62,6 +62,16 @@ const progressColumns = (onEdit, onDelete) => [
     cell: ({ row }) => formatNumber(row.getValue("arm_left")),
   },
   {
+    accessorKey: "leg",
+    header: "Bacak",
+    cell: ({ row }) => formatNumber(row.getValue("leg")),
+  },
+  {
+    accessorKey: "abdominal",
+    header: "Karın",
+    cell: ({ row }) => formatNumber(row.getValue("abdominal")),
+  },
+  {
     id: "actions",
     header: "İşlemler",
     cell: ({ row }) => {

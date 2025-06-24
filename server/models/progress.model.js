@@ -39,6 +39,14 @@ const progressSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    leg: {
+      type: Number,
+      required: true,
+    },
+    abdominal: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );

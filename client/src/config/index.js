@@ -128,7 +128,14 @@ export const EDIT_PROFILE_CONTROLS = [
   {
     name: "target_weight",
     label: "Hedef Kilo",
-    palceholder: "Hedf kilonuzu giriniz",
+    palceholder: "Hedef kilonuzu giriniz",
+    componentType: "input",
+    type: "text",
+  },
+  {
+    name: "weight",
+    label: "Mevcut Kilo",
+    palceholder: "Mevcut kilonuzu giriniz",
     componentType: "input",
     type: "text",
   },
@@ -224,6 +231,20 @@ export const CREATE_PROGRESS_CONTROLS = [
   {
     name: "arm_left",
     label: "Sol Kol Ölçüsü",
+    placeholder: "CM",
+    componentType: "input",
+    type: "text",
+  },
+  {
+    name: "leg",
+    label: "Bacak Ölçüsü",
+    placeholder: "CM",
+    componentType: "input",
+    type: "text",
+  },
+  {
+    name: "abdominal",
+    label: "Karın Ölçüsü",
     placeholder: "CM",
     componentType: "input",
     type: "text",

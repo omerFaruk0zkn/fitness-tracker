@@ -6,8 +6,18 @@ import { AppError } from "../utils/appError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const createProgress = asyncHandler(async (req, res) => {
-  const { date, weight, shoulder, chest, waist, hip, arm_right, arm_left } =
-    req.body;
+  const {
+    date,
+    weight,
+    shoulder,
+    chest,
+    waist,
+    hip,
+    arm_right,
+    arm_left,
+    leg,
+    abdominal,
+  } = req.body;
 
   const existing = await Progress.findOne({ userId: req.user._id, date });
   if (existing) throw new AppError(400, "Bu tarih için veri zaten mevcut");
@@ -20,7 +30,9 @@ export const createProgress = asyncHandler(async (req, res) => {
     !waist ||
     !hip ||
     !arm_right ||
-    !arm_left
+    !arm_left ||
+    !leg ||
+    !abdominal
   ) {
     throw new AppError(400, "Tüm alanlar zorunludur");
   }
@@ -35,6 +47,8 @@ export const createProgress = asyncHandler(async (req, res) => {
     hip: parseFloat(hip.replace(",", ".")),
     arm_right: parseFloat(arm_right.replace(",", ".")),
     arm_left: parseFloat(arm_left.replace(",", ".")),
+    leg: parseFloat(leg.replace(",", ".")),
+    abdominal: parseFloat(abdominal.replace(",", ".")),
   });
 
   await User.findByIdAndUpdate(req.user._id, {
@@ -50,8 +64,18 @@ export const getProgressData = asyncHandler(async (req, res) => {
 });
 
 export const updateProgress = asyncHandler(async (req, res) => {
-  const { date, weight, shoulder, chest, waist, hip, arm_right, arm_left } =
-    req.body;
+  const {
+    date,
+    weight,
+    shoulder,
+    chest,
+    waist,
+    hip,
+    arm_right,
+    arm_left,
+    leg,
+    abdominal,
+  } = req.body;
   const { progressId } = req.params;
 
   const progress = await Progress.findById(progressId);
@@ -68,6 +92,8 @@ export const updateProgress = asyncHandler(async (req, res) => {
       hip: parseFloat(hip.replace(",", ".")),
       arm_right: parseFloat(arm_right.replace(",", ".")),
       arm_left: parseFloat(arm_left.replace(",", ".")),
+      leg: parseFloat(leg.replace(",", ".")),
+      abdominal: parseFloat(abdominal.replace(",", ".")),
     },
     { new: true }
   );
@@ -93,7 +119,7 @@ export const exportProgressToPDF = asyncHandler(async (req, res) => {
     date: 1,
   });
 
-  const doc = new PDFDocument({ margin: 20, size: "A4" });
+  const doc = new PDFDocument({ margin: 5, size: "A4" });
   const fontPath = path.join(process.cwd(), "fonts", "Roboto.ttf");
 
   if (!progressList.length) {
@@ -123,6 +149,8 @@ export const exportProgressToPDF = asyncHandler(async (req, res) => {
         "Kalça Ölçüsü",
         "Sağ Kol Ölçüsü",
         "Sol Kol Ölçüsü",
+        "Bacak Ölçüsü",
+        "Karın Ölçüsü",
       ],
       rows: progressList.map((progress) => [
         new Date(progress.date).toLocaleDateString("tr-TR"),
@@ -133,6 +161,8 @@ export const exportProgressToPDF = asyncHandler(async (req, res) => {
         `${progress.hip ?? "-"} cm`,
         `${progress.arm_right ?? "-"} cm`,
         `${progress.arm_left ?? "-"} cm`,
+        `${progress.leg ?? "-"} cm`,
+        `${progress.abdominal ?? "-"} cm`,
       ]),
     };
 

@@ -39,6 +39,16 @@ const chartFields = [
     title: "Kalça Gelişimi",
     label: "Kalça (cm)",
   },
+  {
+    key: "leg",
+    title: "Bacak Gelişimi",
+    label: "Bacak (cm)",
+  },
+  {
+    key: "abdominal",
+    title: "Karın Gelişimi",
+    label: "Karın (cm)",
+  },
 ];
 
 const ChartsPage = () => {

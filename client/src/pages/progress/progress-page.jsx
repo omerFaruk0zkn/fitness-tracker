@@ -40,6 +40,12 @@ const createProgressSchema = Yup.object({
   arm_left: Yup.string()
     .transform((value) => value?.replace(",", "."))
     .required("Sol kol ölçüsü zorunlu"),
+  leg: Yup.string()
+    .transform((value) => value?.replace(",", "."))
+    .required("Bacak ölçüsü zorunlu"),
+  abdominal: Yup.string()
+    .transform((value) => value?.replace(",", "."))
+    .required("Karın ölçüsü zorunlu"),
 });
 
 const ProgressPage = () => {
@@ -65,6 +71,8 @@ const ProgressPage = () => {
         hip: editingProgress.hip.toString(),
         arm_right: editingProgress.arm_right.toString(),
         arm_left: editingProgress.arm_left.toString(),
+        leg: editingProgress?.leg?.toString(),
+        abdominal: editingProgress?.abdominal?.toString(),
       }
     : {
         date: null,

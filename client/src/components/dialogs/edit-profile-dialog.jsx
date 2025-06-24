@@ -19,12 +19,18 @@ const editProfileSchema = Yup.object({
   name: Yup.string(),
   email: Yup.string().email("Geçerli bir e-posta adresi giriniz"),
   target_weight: Yup.string().transform((value) => value?.replace(",", ".")),
+  weight: Yup.string().nullable(),
 });
 
 const EditProfileDialog = ({ openEditDialog, setOpenEditDialog }) => {
   const { checkAuth, user } = useAuthStore();
   const { progresses } = useProgressStore();
   const { editProfile } = useUserStore();
+
+  const showWeightInput = !user?.weight;
+  const filteredControls = showWeightInput
+    ? EDIT_PROFILE_CONTROLS
+    : EDIT_PROFILE_CONTROLS.filter((item) => item.name !== "weight");
 
   const lastProgress = progresses[progresses.length - 1];
 
@@ -33,6 +39,7 @@ const EditProfileDialog = ({ openEditDialog, setOpenEditDialog }) => {
     name: user ? user.name : "",
     email: user ? user.email : "",
     target_weight: user ? user.target_weight : "",
+    weight: "",
   };
 
   const handleEditProfile = (values, actions) => {
@@ -53,6 +60,10 @@ const EditProfileDialog = ({ openEditDialog, setOpenEditDialog }) => {
     formData.append("name", values.name);
     formData.append("email", values.email);
     formData.append("target_weight", values.target_weight);
+
+    if (showWeightInput && values.weight) {
+      formData.append("weight", values.weight);
+    }
 
     editProfile(formData).then(() => {
       checkAuth();
@@ -87,7 +98,7 @@ const EditProfileDialog = ({ openEditDialog, setOpenEditDialog }) => {
             setFieldValue,
           }) => (
             <CommonForm
-              formControls={EDIT_PROFILE_CONTROLS}
+              formControls={filteredControls}
               values={values}
               errors={errors}
               touched={touched}
