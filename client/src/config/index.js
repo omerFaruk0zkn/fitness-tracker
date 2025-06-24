@@ -76,6 +76,13 @@ export const REGISTER_FORM_CONTROLS = [
     componentType: "input",
     type: "text",
   },
+  {
+    name: "weight",
+    label: "Kilo (kg)",
+    placeholder: "Kilo bilginizi giriniz",
+    componentType: "input",
+    type: "text",
+  },
 ];
 
 export const LOGIN_FORM_CONTROLS = [

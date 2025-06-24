@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
     height: Number,
+    weight: Number,
     target_weight: Number,
     progresses: [
       {

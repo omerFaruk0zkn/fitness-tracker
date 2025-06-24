@@ -4,9 +4,9 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { generateToken } from "../utils/generateToken.js";
 
 export const register = asyncHandler(async (req, res) => {
-  const { name, email, password, height } = req.body;
+  const { name, email, password, height, weight } = req.body;
 
-  if (!name || !email || !password || !height) {
+  if (!name || !email || !password || !height || !weight) {
     throw new AppError(400, "Tüm alanlar zorunludur");
   }
 
@@ -18,6 +18,7 @@ export const register = asyncHandler(async (req, res) => {
     email,
     password,
     height: parseFloat(height.replace(",", ".")),
+    weight: parseFloat(weight.replace(",", ".")),
   });
 
   const token = generateToken(user._id);

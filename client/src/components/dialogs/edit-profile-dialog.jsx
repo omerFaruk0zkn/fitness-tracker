@@ -36,8 +36,14 @@ const EditProfileDialog = ({ openEditDialog, setOpenEditDialog }) => {
   };
 
   const handleEditProfile = (values, actions) => {
-    if (values.target_weight && values.target_weight > lastProgress?.weight) {
-      toast.error("Hedef kilonuz mevcut kilonuzdan düşük olmalıdır");
+    if (
+      values.target_weight &&
+      (values.target_weight > lastProgress?.weight ||
+        values.target_weight > user?.weight)
+    ) {
+      toast.error(
+        "Hedef kilonuz mevcut kilonuzdan veya son girilen kilonuzdan düşük olmalıdır"
+      );
       actions.setSubmitting(false);
       return;
     }

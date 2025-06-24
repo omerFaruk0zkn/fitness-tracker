@@ -11,6 +11,7 @@ const initialValues = {
   password: "",
   confirmPassword: "",
   height: "",
+  weight: "",
 };
 
 const registerSchema = Yup.object({
@@ -25,6 +26,7 @@ const registerSchema = Yup.object({
     .oneOf([Yup.ref("password"), null], "Şifreler eşleşmiyor")
     .required("Şifre tekrarı zorunlu"),
   height: Yup.string().required("Boy bilgisi zorunludur"),
+  weight: Yup.string().required("Kilo bilgisi zorunludur"),
 });
 
 const RegisterPage = () => {

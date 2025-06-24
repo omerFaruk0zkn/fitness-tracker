@@ -1,3 +1,4 @@
+import { formatNumber } from "@/utils/formatNumber";
 import { useTheme } from "../theme/use-theme";
 import {
   CartesianGrid,
@@ -88,7 +89,8 @@ const ChartItem = ({ sortedProgresses, dataKey, label, title }) => {
                           <strong>Tarih:</strong> {dataPoint.date}
                         </div>
                         <div>
-                          <strong>{payload[0].name}:</strong> {payload[0].value}
+                          <strong>{payload[0].name}:</strong>{" "}
+                          {formatNumber(payload[0].value)}
                         </div>
                       </div>
                     );

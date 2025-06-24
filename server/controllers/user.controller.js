@@ -4,9 +4,9 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { deleteFile, uploadFile } from "../utils/manageFile.js";
 
 export const updateUser = asyncHandler(async (req, res) => {
-  const { name, email, target_weight } = req.body;
+  const { name, email, target_weight, weight } = req.body;
 
-  if (target_weight.includes(",")) {
+  if (typeof target_weight === "string" && target_weight.includes(",")) {
     throw new AppError(400, "Virgül yerine nokta kullanınız");
   }
 
@@ -22,7 +22,10 @@ export const updateUser = asyncHandler(async (req, res) => {
   const updateFiles = {
     name: name || user.name,
     email: email || user.email,
-    target_weight: target_weight.replace(",", ".") || user.target_weight,
+    target_weight: target_weight
+      ? target_weight.replace(",", ".")
+      : user.target_weight,
+    weight: weight ? weight.replace(",", ".") : user.weight,
   };
 
   if (uploadResult) {

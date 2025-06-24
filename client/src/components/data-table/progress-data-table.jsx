@@ -16,6 +16,7 @@ import {
   flexRender,
   getFilteredRowModel,
 } from "@tanstack/react-table";
+import { formatNumber } from "@/utils/formatNumber";
 import CalendarField from "../forms/calendar-field";
 
 const progressColumns = (onEdit, onDelete) => [
@@ -28,30 +29,37 @@ const progressColumns = (onEdit, onDelete) => [
   {
     accessorKey: "weight",
     header: "Kilo (kg)",
+    cell: ({ row }) => formatNumber(row.getValue("weight")),
   },
   {
     accessorKey: "shoulder",
     header: "Omuz",
+    cell: ({ row }) => formatNumber(row.getValue("shoulder")),
   },
   {
     accessorKey: "chest",
     header: "Göğüs",
+    cell: ({ row }) => formatNumber(row.getValue("chest")),
   },
   {
     accessorKey: "waist",
     header: "Bel",
+    cell: ({ row }) => formatNumber(row.getValue("waist")),
   },
   {
     accessorKey: "hip",
     header: "Kalça",
+    cell: ({ row }) => formatNumber(row.getValue("hip")),
   },
   {
     accessorKey: "arm_right",
     header: "Sağ Kol",
+    cell: ({ row }) => formatNumber(row.getValue("arm_right")),
   },
   {
     accessorKey: "arm_left",
     header: "Sol Kol",
+    cell: ({ row }) => formatNumber(row.getValue("arm_left")),
   },
   {
     id: "actions",

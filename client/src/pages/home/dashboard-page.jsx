@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -17,6 +17,8 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { useAuthStore } from "@/store/authStore";
 import { useProgressStore } from "@/store/progressStore";
+import { useUserStore } from "@/store/userStore";
+import { formatNumber } from "@/utils/formatNumber";
 import UserInfoCard from "@/components/dashboard/user-info-card";
 import StatShortcutCard from "@/components/dashboard/stat-shortcut-card";
 import DashboardSkeleton from "@/components/skeletons/dashboard-skeleton";
@@ -31,14 +33,14 @@ const getBmiCategory = (bmi) => {
 };
 
 const DashboardPage = () => {
-  const { user } = useAuthStore();
+  const { user, setUser } = useAuthStore();
+  const { editProfile } = useUserStore();
   const { progresses, getProgressData, loading } = useProgressStore();
   const [showCompletionAlert, setShowCompletionAlert] = useState(false);
 
   const lastProgress = progresses[progresses.length - 1];
-  const firstProgress = progresses[0];
 
-  const startWeight = firstProgress?.weight;
+  const startWeight = user?.weight;
   const currentWeight = lastProgress?.weight;
   const targetWeight = user?.target_weight;
 
@@ -50,6 +52,7 @@ const DashboardPage = () => {
   // BMI hesap
   const heightInMeters = user?.height / 100;
   const bmi = currentWeight / (heightInMeters * heightInMeters);
+  console.log(typeof bmi);
   const bmiCategory = getBmiCategory(bmi);
 
   const minIdealWeight = 18.5 * (heightInMeters * heightInMeters);
@@ -59,11 +62,22 @@ const DashboardPage = () => {
     getProgressData();
   }, [getProgressData]);
 
+  const handleGoalCompletion = useCallback(async () => {
+    if (!lastProgress?.weight) return;
+
+    const updatedFormData = new FormData();
+    updatedFormData.append("weight", lastProgress.weight);
+
+    const updatedUser = await editProfile(updatedFormData);
+    setUser(updatedUser);
+  }, [editProfile, lastProgress?.weight, setUser]);
+
   useEffect(() => {
     if (progress === 100) {
       setShowCompletionAlert(true);
+      handleGoalCompletion();
     }
-  }, [progress]);
+  }, [progress, handleGoalCompletion]);
 
   if (loading) return <DashboardSkeleton />;
 
@@ -78,20 +92,18 @@ const DashboardPage = () => {
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
             <StatShortcutCard
               title="Boy"
-              value={user?.height.toFixed(1)}
+              value={formatNumber(user?.height)}
               unit="cm"
             />
-            {lastProgress?.weight && (
-              <StatShortcutCard
-                title="Kilo"
-                value={lastProgress?.weight}
-                unit="kg"
-              />
-            )}
+            <StatShortcutCard
+              title="Kilo"
+              value={formatNumber(user?.weight)}
+              unit="kg"
+            />
             {user?.target_weight && (
               <StatShortcutCard
                 title="Hedef Kilo"
-                value={user?.target_weight}
+                value={formatNumber(user?.target_weight)}
                 unit="kg"
               />
             )}
@@ -101,7 +113,7 @@ const DashboardPage = () => {
 
       <div className="flex flex-col gap-2">
         <h2 className="text-xl font-bold">Hedefiniz Ne Durumda</h2>
-        {user?.target_weight && lastProgress ? (
+        {user?.target_weight && user?.weight !== user?.target_weight ? (
           <div className="flex flex-col sm:flex-row sm:items-center gap-2">
             <div className="text-sm text-muted-foreground">
               Mevcut kilo: {currentWeight} kg &rarr; Hedef: {targetWeight} kg
@@ -143,18 +155,18 @@ const DashboardPage = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           <StatShortcutCard
-            value={Math.round(minIdealWeight)}
+            value={formatNumber(minIdealWeight)}
             unit="kg"
             title="En düşük ideal kilon"
           />
           <StatShortcutCard
-            value={Math.round(maxIdealWeight)}
+            value={formatNumber(maxIdealWeight)}
             unit="kg"
             title="En yüksek ideal kilon"
           />
           {lastProgress && (
             <StatShortcutCard
-              value={Math.round(bmi)}
+              value={formatNumber(bmi)}
               unit=""
               title="Şu anki bmi ortalamanız"
             />

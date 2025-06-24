@@ -15,6 +15,7 @@ export const useUserStore = create((set) => ({
         },
       });
       toast.success(res.data.message);
+      return res.data.user;
     } catch (error) {
       toast.error(error?.response?.data?.message);
     } finally {
