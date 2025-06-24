@@ -5,12 +5,12 @@ import {
   MonitorUp,
   ChartColumn,
 } from "lucide-react";
-import AuthCarousel1 from "../assets/auth-carousel/auth-carousel1.jpg";
-import AuthCarousel2 from "../assets/auth-carousel/auth-carousel2.jpg";
-import AuthCarousel3 from "../assets/auth-carousel/auth-carousel3.jpg";
-import AuthCarousel4 from "../assets/auth-carousel/auth-carousel4.jpg";
-import AuthCarousel5 from "../assets/auth-carousel/auth-carousel5.jpg";
-import AuthCarousel6 from "../assets/auth-carousel/auth-carousel6.jpg";
+import AuthCarousel1 from "../assets/auth-carousel/auth-carousel1.webp";
+import AuthCarousel2 from "../assets/auth-carousel/auth-carousel2.webp";
+import AuthCarousel3 from "../assets/auth-carousel/auth-carousel3.webp";
+import AuthCarousel4 from "../assets/auth-carousel/auth-carousel4.webp";
+import AuthCarousel5 from "../assets/auth-carousel/auth-carousel5.webp";
+import AuthCarousel6 from "../assets/auth-carousel/auth-carousel6.webp";
 
 export const AUTH_CAROUSEL_IMAGES = [
   AuthCarousel1,

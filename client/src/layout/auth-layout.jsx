@@ -28,6 +28,8 @@ const AuthLayout = () => {
                   src={src}
                   alt={`slider-${index + 1}`}
                   className="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-black/30" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
