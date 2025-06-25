@@ -141,7 +141,7 @@ export const EDIT_PROFILE_CONTROLS = [
   },
 ];
 
-export const ADD_EXERCISE_CONTROLS = [
+export const MANAGE_EXERCISE_CONTROLS = [
   {
     name: "video",
     label: "Egzersiz Videosu",

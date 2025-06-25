@@ -1,4 +1,5 @@
-import { Trash } from "lucide-react";
+import { Edit, Trash } from "lucide-react";
+import { Button } from "../ui/button";
 import {
   Card,
   CardAction,
@@ -24,7 +25,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useExerciseStore } from "@/store/exerciseStore";
 import ReactPlayer from "react-player";
 
-const ExerciseCard = ({ exercise }) => {
+const ExerciseCard = ({ exercise, onEdit }) => {
   const { user } = useAuthStore();
   const { deleteExerciseById } = useExerciseStore();
 
@@ -39,7 +40,13 @@ const ExerciseCard = ({ exercise }) => {
         <CardDescription>{exercise.description}</CardDescription>
 
         {user.isAdmin && (
-          <CardAction>
+          <CardAction className="flex items-center gap-2">
+            <Button
+              className="rounded-full size-7 hover:scale-105 transition-transform"
+              onClick={() => onEdit(exercise)}
+            >
+              <Edit className="size-5" />
+            </Button>
             <AlertDialog>
               <AlertDialogTrigger className="bg-destructive/80 text-secondary-foreground p-1 rounded-full hover:bg-destructive hover:scale-105 transition-transform hover:cursor-pointer">
                 <Trash className="size-5" />
@@ -47,8 +54,10 @@ const ExerciseCard = ({ exercise }) => {
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>
-                    <span className="capitalize text-secondary-foreground ">{exercise.name}</span> adlı
-                    egzersizi silmek istediğinize emin misiniz?
+                    <span className="capitalize text-secondary-foreground ">
+                      {exercise.name}
+                    </span>{" "}
+                    adlı egzersizi silmek istediğinize emin misiniz?
                   </AlertDialogTitle>
                   <AlertDialogDescription></AlertDialogDescription>
                 </AlertDialogHeader>

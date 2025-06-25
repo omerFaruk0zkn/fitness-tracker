@@ -30,6 +30,49 @@ export const getAllExercises = asyncHandler(async (req, res) => {
   res.json(exercises);
 });
 
+export const updateExercise = asyncHandler(async (req, res) => {
+  const { exerciseId } = req.params;
+
+  const updateData = {};
+  const { name, description, muscleGroup } = req.body;
+
+  if (name !== undefined) updateData.name = name;
+  if (description !== undefined) updateData.description = description;
+  if (muscleGroup !== undefined) updateData.muscleGroup = muscleGroup;
+
+  if (req.file) {
+    const exercise = await Exercise.findById(exerciseId);
+    if (!exercise) throw new AppError(404, "Egzersiz bulunamadı");
+
+    if (exercise.video?.publicId) {
+      await deleteFile(exercise.video.publicId, "video");
+    }
+
+    const uploadResult = await uploadFile(req.file.path, "video", "exercises");
+    updateData.video = {
+      url: uploadResult.secure_url,
+      publicId: uploadResult.public_id,
+    };
+  }
+
+  const updatedExercise = await Exercise.findByIdAndUpdate(
+    exerciseId,
+    updateData,
+    {
+      new: true,
+    }
+  );
+
+  if (!updatedExercise) {
+    throw new AppError(404, "Egzersiz bulunamadı");
+  }
+
+  res.status(200).json({
+    message: "Egzersiz güncellendi",
+    exercise: updatedExercise,
+  });
+});
+
 export const deleteExercise = asyncHandler(async (req, res) => {
   const { exerciseId } = req.params;
 

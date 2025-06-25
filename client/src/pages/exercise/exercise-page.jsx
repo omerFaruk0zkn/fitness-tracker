@@ -5,13 +5,15 @@ import { useAuthStore } from "@/store/authStore";
 import { useExerciseStore } from "@/store/exerciseStore";
 import ExerciseCard from "@/components/exercises/exercise-card";
 import ExerciseFilter from "@/components/exercises/exercise-filter";
-import AddExerciseDialog from "@/components/dialogs/add-exercise-dialog";
+import ManageExerciseDialog from "@/components/dialogs/manage-exercise-dialog";
 import ExerciseSkeleton from "@/components/skeletons/exercise-skeleton";
 
 const ExercisePage = () => {
   const { user } = useAuthStore();
   const { getAllExercise, exercises, loading } = useExerciseStore();
-  const [openAddExerciseDialog, setOpenAddExerciseDialog] = useState(false);
+  const [openManageExerciseDialog, setOpenManageExerciseDialog] =
+    useState(false);
+  const [exerciseToEdit, setExerciseToEdit] = useState(null);
   const [filtered, setFiltered] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState("Tümü");
 
@@ -27,6 +29,11 @@ const ExercisePage = () => {
     }
   }, [selectedGroup, exercises]);
 
+  const handleEditExercise = (exercise) => {
+    setExerciseToEdit(exercise);
+    setOpenManageExerciseDialog(true);
+  };
+
   if (loading) return <ExerciseSkeleton />;
 
   return (
@@ -38,7 +45,7 @@ const ExercisePage = () => {
 
         {user?.isAdmin && (
           <Button
-            onClick={() => setOpenAddExerciseDialog(true)}
+            onClick={() => setOpenManageExerciseDialog(true)}
             className="flex items-center gap-1 px-3 py-1 rounded text-sm"
           >
             <Plus size={16} /> Ekle
@@ -56,7 +63,11 @@ const ExercisePage = () => {
       {exercises && exercises.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {filtered.map((exercise) => (
-            <ExerciseCard key={exercise._id} exercise={exercise} />
+            <ExerciseCard
+              key={exercise._id}
+              exercise={exercise}
+              onEdit={handleEditExercise}
+            />
           ))}
         </div>
       ) : (
@@ -65,9 +76,11 @@ const ExercisePage = () => {
         </p>
       )}
 
-      <AddExerciseDialog
-        openAddExerciseDialog={openAddExerciseDialog}
-        setOpenAddExerciseDialog={setOpenAddExerciseDialog}
+      <ManageExerciseDialog
+        openManageExerciseDialog={openManageExerciseDialog}
+        setOpenManageExerciseDialog={setOpenManageExerciseDialog}
+        exerciseToEdit={exerciseToEdit}
+        setExerciseToEdit={setExerciseToEdit}
       />
     </div>
   );

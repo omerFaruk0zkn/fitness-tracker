@@ -7,6 +7,7 @@ export const useExerciseStore = create((set) => ({
   loading: false,
   isAddedExercise: false,
   isDeletedExercise: false,
+  isUpdatedExercise: false,
 
   addExercise: async (formData) => {
     set({ isAddedExercise: true });
@@ -57,6 +58,30 @@ export const useExerciseStore = create((set) => ({
       toast.error(error?.response?.data?.message);
     } finally {
       set({ isDeletedExercise: false });
+    }
+  },
+
+  updateExercise: async (exerciseId, formData) => {
+    set({ isUpdatedExercise: true });
+
+    try {
+      const res = await api.put(`/exercises/${exerciseId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success(res.data.message);
+
+      set((prev) => ({
+        exercises: prev.exercises.map((exercise) =>
+          exercise._id === exerciseId ? res.data.exercise : exercise
+        ),
+      }));
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    } finally {
+      set({ isUpdatedExercise: false });
     }
   },
 }));

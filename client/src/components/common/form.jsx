@@ -26,22 +26,32 @@ const CommonForm = ({
   buttonText,
   setFieldValue,
   customClass,
+  existingVideoUrl,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const fileInputRefs = useRef({});
 
-  const videoURL = useMemo(() => {
-    return values.video ? URL.createObjectURL(values.video) : null;
-  }, [values.video]);
+  const videoPreview = useMemo(() => {
+    if (values.video instanceof File) {
+      return URL.createObjectURL(values.video);
+    }
+    if (typeof values.video === "string") {
+      return values.video;
+    }
+    if (existingVideoUrl) {
+      return existingVideoUrl;
+    }
+    return null;
+  }, [values.video, existingVideoUrl]);
 
   useEffect(() => {
     return () => {
-      if (videoURL) {
-        URL.revokeObjectURL(videoURL);
+      if (values.video instanceof File) {
+        URL.revokeObjectURL(videoPreview);
       }
     };
-  }, [videoURL]);
+  }, [videoPreview, values.video]);
 
   const renderInputsByComponentType = (item) => {
     const value = getIn(values, item.name) || "";
@@ -71,7 +81,7 @@ const CommonForm = ({
 
           return (
             <>
-              {(profileImgPreview || (values.video && videoURL)) && (
+              {(profileImgPreview || (values.video && videoPreview)) && (
                 <div className="relative w-fit">
                   {values.profileImg && (
                     <img
@@ -81,9 +91,9 @@ const CommonForm = ({
                     />
                   )}
 
-                  {values.video && videoURL && (
+                  {videoPreview && (
                     <video
-                      src={videoURL}
+                      src={videoPreview}
                       controls
                       className="aspect-video max-w-xs w-full rounded-md shadow-md"
                     />
