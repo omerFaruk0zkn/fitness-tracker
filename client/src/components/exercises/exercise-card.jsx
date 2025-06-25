@@ -24,6 +24,7 @@ import {
 import { useAuthStore } from "@/store/authStore";
 import { useExerciseStore } from "@/store/exerciseStore";
 import ReactPlayer from "react-player";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 const ExerciseCard = ({ exercise, onEdit }) => {
   const { user } = useAuthStore();
@@ -36,8 +37,22 @@ const ExerciseCard = ({ exercise, onEdit }) => {
   return (
     <Card className="max-w-sm">
       <CardHeader>
-        <CardTitle className="font-bold">{exercise.name}</CardTitle>
-        <CardDescription>{exercise.description}</CardDescription>
+        <CardTitle className="font-bold text-base sm:text-lg">{exercise.name}</CardTitle>
+
+        {exercise.description && (
+          <Popover>
+            <PopoverTrigger asChild>
+              <p className="text-primary font-medium underline cursor-pointer">
+                Açıklama
+              </p>
+            </PopoverTrigger>
+            <PopoverContent className="bg-background">
+              <CardDescription className="text-secondary-foreground text-justify text-wrap">
+                {exercise.description}
+              </CardDescription>
+            </PopoverContent>
+          </Popover>
+        )}
 
         {user.isAdmin && (
           <CardAction className="flex items-center gap-2">
