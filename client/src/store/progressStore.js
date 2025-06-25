@@ -84,6 +84,8 @@ export const useProgressStore = create((set) => ({
         }
       );
 
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       return res.data;
     } catch (error) {
       console.error(error);

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Formik } from "formik";
+import { Loader } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -57,6 +58,7 @@ const ProgressPage = () => {
     deleteProgress,
     exportProgressToPDF,
     isFetching,
+    loading,
   } = useProgressStore();
   const [deleteId, setDeleteId] = useState(null);
   const [editingProgress, setEditingProgress] = useState(null);
@@ -135,9 +137,11 @@ const ProgressPage = () => {
         {progresses && progresses.length > 0 && (
           <Button
             onClick={exportPDF}
-            className="bg-destructive hover:bg-destructive/80 text-secondary px-4 py-2 rounded"
+            className="bg-destructive hover:bg-destructive/80 text-secondary-foreground rounded"
+            disabled={loading}
           >
-            PDF Dışa Aktar
+            {loading && <Loader size={16} className="animate-spin" />} PDF Dışa
+            Aktar
           </Button>
         )}
       </div>
