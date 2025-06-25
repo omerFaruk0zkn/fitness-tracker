@@ -24,7 +24,6 @@ const LoginPage = () => {
   const { login } = useAuthStore();
 
   const handleLogin = (values, actions) => {
-    console.log(values);
     login(values).then(() => {
       navigate("/");
       actions.setSubmitting(false);

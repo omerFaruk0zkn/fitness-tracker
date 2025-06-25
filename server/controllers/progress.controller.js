@@ -2,8 +2,12 @@ import Progress from "../models/progress.model.js";
 import User from "../models/user.model.js";
 import PDFDocument from "pdfkit-table";
 import path from "path";
+import { fileURLToPath } from "url";
 import { AppError } from "../utils/appError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export const createProgress = asyncHandler(async (req, res) => {
   const {
@@ -120,7 +124,7 @@ export const exportProgressToPDF = asyncHandler(async (req, res) => {
   });
 
   const doc = new PDFDocument({ margin: 5, size: "A4" });
-  const fontPath = path.join(process.cwd(), "fonts", "Roboto.ttf");
+  const fontPath = path.join(__dirname, "..", "fonts", "Roboto.ttf");
 
   if (!progressList.length) {
     doc.fontSize(12).text("Herhangi bir veri bulunamadı.");
@@ -142,33 +146,33 @@ export const exportProgressToPDF = asyncHandler(async (req, res) => {
     const table = {
       headers: [
         "Tarih",
-        "Kilo",
-        "Omuz Ölçüsü",
-        "Göğüs Ölçüsü",
-        "Bel Ölçüsü",
-        "Kalça Ölçüsü",
-        "Sağ Kol Ölçüsü",
-        "Sol Kol Ölçüsü",
-        "Bacak Ölçüsü",
-        "Karın Ölçüsü",
+        "Kilo (KG)",
+        "Omuz (CM)",
+        "Göğüs (CM)",
+        "Bel (CM)",
+        "Kalça (CM)",
+        "Sağ Kol (CM)",
+        "Sol Kol (CM)",
+        "Bacak (CM)",
+        "Karın (CM)",
       ],
       rows: progressList.map((progress) => [
         new Date(progress.date).toLocaleDateString("tr-TR"),
-        `${progress.weight ?? "-"} kg`,
-        `${progress.shoulder ?? "-"} cm`,
-        `${progress.chest ?? "-"} cm`,
-        `${progress.waist ?? "-"} cm`,
-        `${progress.hip ?? "-"} cm`,
-        `${progress.arm_right ?? "-"} cm`,
-        `${progress.arm_left ?? "-"} cm`,
-        `${progress.leg ?? "-"} cm`,
-        `${progress.abdominal ?? "-"} cm`,
+        `${progress.weight ?? "-"}`,
+        `${progress.shoulder ?? "-"}`,
+        `${progress.chest ?? "-"}`,
+        `${progress.waist ?? "-"}`,
+        `${progress.hip ?? "-"}`,
+        `${progress.arm_right ?? "-"}`,
+        `${progress.arm_left ?? "-"}`,
+        `${progress.leg ?? "-"}`,
+        `${progress.abdominal ?? "-"}`,
       ]),
     };
 
     await doc.table(table, {
-      prepareHeader: () => doc.font("TurkishFont").fontSize(12),
-      prepareRow: () => doc.font("TurkishFont").fontSize(10),
+      prepareHeader: () => doc.font("TurkishFont").fontSize(9),
+      prepareRow: () => doc.font("TurkishFont").fontSize(8),
     });
 
     doc.end();
