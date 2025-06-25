@@ -55,6 +55,7 @@ const ManageExerciseDialog = ({
     action.then(() => {
       actions.setSubmitting(false);
       setOpenManageExerciseDialog(false);
+      setExerciseToEdit(null);
     });
   };
 
