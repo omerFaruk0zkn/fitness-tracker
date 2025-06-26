@@ -26,8 +26,21 @@ export const createExercise = asyncHandler(async (req, res) => {
 });
 
 export const getAllExercises = asyncHandler(async (req, res) => {
-  const exercises = await Exercise.find().sort({ createdAt: -1 });
-  res.json(exercises);
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 8;
+  const skip = (page - 1) * limit;
+
+  const [exercises, total] = await Promise.all([
+    Exercise.find().sort({ createdAt: -1 }).skip(skip).limit(limit),
+    Exercise.countDocuments(),
+  ]);
+
+  res.json({
+    exercises,
+    total,
+    page,
+    pages: Math.ceil(total / limit),
+  });
 });
 
 export const updateExercise = asyncHandler(async (req, res) => {

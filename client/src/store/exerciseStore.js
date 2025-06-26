@@ -4,6 +4,9 @@ import api from "@/api/axios";
 
 export const useExerciseStore = create((set) => ({
   exercises: [],
+  total: 0,
+  page: 1,
+  pages: 0,
   loading: false,
   isAddedExercise: false,
   isDeletedExercise: false,
@@ -29,12 +32,18 @@ export const useExerciseStore = create((set) => ({
     }
   },
 
-  getAllExercise: async () => {
+  getAllExercise: async (page = 1, limit = 8) => {
     set({ loading: true });
 
     try {
-      const res = await api.get("/exercises");
-      set({ exercises: res.data });
+      const res = await api.get(`/exercises?page=${page}&limit=${limit}`);
+
+      set({
+        exercises: res.data.exercises,
+        total: res.data.total,
+        page: res.data.page,
+        pages: res.data.pages,
+      });
     } catch (error) {
       toast.error(error?.response?.data?.message);
     } finally {
