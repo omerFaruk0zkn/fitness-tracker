@@ -19,7 +19,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full backdrop-blur-xl shadow-md p-4 sticky top-0 z-50">
+    <nav className="w-full backdrop-blur-sm shadow-md p-4 sticky top-0 z-50">
       <div className="hidden md:flex items-center justify-between">
         <Link to="/" className="text-xl font-bold">
           Fitness Tracker
@@ -31,7 +31,7 @@ const Navbar = () => {
               key={link.path}
               to={link.path}
               className={({ isActive }) =>
-                isActive ? "text-primary" : "hover:text-primary"
+                isActive ? "text-primary" : "hover:text-primary text-foreground"
               }
             >
               {link.label}

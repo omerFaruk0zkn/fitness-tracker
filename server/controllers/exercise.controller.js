@@ -36,6 +36,12 @@ export const createExercise = asyncHandler(async (req, res) => {
 });
 
 export const getAllExercises = asyncHandler(async (req, res) => {
+  const exercises = await Exercise.find().sort({ createdAt: -1 });
+
+  res.status(200).json(exercises);
+});
+
+export const getExercisesPerPage = asyncHandler(async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 8;
   const muscleGroup = req.query.muscleGroup;

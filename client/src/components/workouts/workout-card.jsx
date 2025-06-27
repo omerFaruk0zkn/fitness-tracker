@@ -23,6 +23,7 @@ import {
 import { Badge } from "../ui/badge";
 import { useWorkoutStore } from "@/store/workoutStore";
 import ReactPlayer from "react-player";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 const WorkoutCard = ({ exercise, date, workoutId }) => {
   const { deleteWokoutItem, updateProgress } = useWorkoutStore();
@@ -39,7 +40,21 @@ const WorkoutCard = ({ exercise, date, workoutId }) => {
     <Card className="max-w-sm">
       <CardHeader>
         <CardTitle className="font-bold">{exercise.exerciseId.name}</CardTitle>
-        <CardDescription>{exercise.exerciseId.description}</CardDescription>
+
+        {exercise.exerciseId.description && (
+          <Popover>
+            <PopoverTrigger asChild>
+              <p className="text-primary font-medium underline cursor-pointer">
+                Açıklama
+              </p>
+            </PopoverTrigger>
+            <PopoverContent className="bg-background">
+              <CardDescription className="text-secondary-foreground text-justify text-wrap">
+                {exercise.exerciseId.description}
+              </CardDescription>
+            </PopoverContent>
+          </Popover>
+        )}
 
         <CardAction>
           <AlertDialog>
@@ -75,6 +90,7 @@ const WorkoutCard = ({ exercise, date, workoutId }) => {
             width="100%"
             height="100%"
             className="absolute inset-0"
+            light={exercise.exerciseId.image?.url || true}
           />
         </div>
       </CardContent>
@@ -89,16 +105,16 @@ const WorkoutCard = ({ exercise, date, workoutId }) => {
         </div>
 
         <div className="flex items-center justify-between w-full">
-          <span className="font-medium">
+          <span className="font-medium text-sm sm:text-base">
             Tamamlanan Set Sayısı: {exercise.completedSets}
           </span>
           <Button
             onClick={handleProgress}
-            className="text-xs flex flex-col items-center justify-center gap-0"
-            size="icon"
+            className="flex items-center p-1"
+            size="small"
           >
-            İlerle
-            <ArrowBigRightDash className="size-4" />
+            <span className="hidden md:inline">İlerle</span>
+            <ArrowBigRightDash className="size-5 md:size-4" />
           </Button>
         </div>
       </CardFooter>

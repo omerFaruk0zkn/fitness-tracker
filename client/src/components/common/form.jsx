@@ -194,13 +194,53 @@ const CommonForm = ({
             onValueChange={(value) => setFieldValue(item.name, value)}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={item.placeholder} />
+              <div className="flex items-center gap-3">
+                {value && (
+                  <>
+                    {(() => {
+                      const selected = item.options?.find(
+                        (opt) => opt.id === value
+                      );
+                      if (!selected) return null;
+                      return (
+                        <>
+                          {selected.image && (
+                            <img
+                              src={selected.image}
+                              alt={selected.label}
+                              className="size-7 sm:size-8 rounded-md object-cover"
+                            />
+                          )}
+                          <span>{selected.label}</span>
+                        </>
+                      );
+                    })()}
+                  </>
+                )}
+                {!value && (
+                  <span className="text-muted-foreground">
+                    {item.placeholder}
+                  </span>
+                )}
+              </div>
             </SelectTrigger>
+
             <SelectContent>
               {item.options && item.options.length > 0
                 ? item.options.map((selectItem) => (
-                    <SelectItem key={selectItem.id} value={selectItem.id}>
-                      {selectItem.label}
+                    <SelectItem
+                      key={selectItem.id}
+                      value={selectItem.id}
+                      className="flex items-center gap-3 py-2"
+                    >
+                      {selectItem.image && (
+                        <img
+                          src={selectItem.image}
+                          alt={selectItem.label}
+                          className="object-cover size-12 rounded-md shrink-0"
+                        />
+                      )}
+                      <span className="text-sm">{selectItem.label}</span>
                     </SelectItem>
                   ))
                 : null}

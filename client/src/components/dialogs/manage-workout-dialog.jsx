@@ -33,7 +33,7 @@ const ManageWorkoutDialog = ({
   setOpenManageWorkoutDialog,
 }) => {
   const { workout, addWorkout, updateWorkout } = useWorkoutStore();
-  const { exercises, getAllExercise } = useExerciseStore();
+  const { allExercises, getAllExercises } = useExerciseStore();
   const today = format(new Date(), "yyyy-MM-dd");
   const isEdit = Boolean(workout);
 
@@ -58,8 +58,8 @@ const ManageWorkoutDialog = ({
       };
 
   useEffect(() => {
-    getAllExercise();
-  }, [getAllExercise]);
+    getAllExercises();
+  }, [getAllExercises]);
 
   const handleManageWorkout = (values, actions) => {
     if (isEdit) {
@@ -116,11 +116,12 @@ const ManageWorkoutDialog = ({
 
   const exerciseOptions = useMemo(
     () =>
-      exercises.map((e) => ({
+      allExercises.map((e) => ({
         id: e._id,
         label: e.name,
+        image: e.image?.url,
       })),
-    [exercises]
+    [allExercises]
   );
 
   return (

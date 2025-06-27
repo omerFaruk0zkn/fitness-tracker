@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import api from "@/api/axios";
 
 export const useExerciseStore = create((set) => ({
+  allExercises: [],
   exercises: [],
   total: 0,
   page: 1,
@@ -32,7 +33,23 @@ export const useExerciseStore = create((set) => ({
     }
   },
 
-  getAllExercise: async (page = 1, limit = 8, muscleGroup = "Tümü") => {
+  getAllExercises: async () => {
+    set({ loading: true });
+
+    try {
+      const res = await api.get("/exercises/all");
+
+      set({
+        allExercises: res.data,
+      });
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  getExercisesPerPage: async (page = 1, limit = 8, muscleGroup = "Tümü") => {
     set({ loading: true });
 
     try {

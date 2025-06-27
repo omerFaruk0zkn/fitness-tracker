@@ -17,7 +17,7 @@ import ExerciseSkeleton from "@/components/skeletons/exercise-skeleton";
 
 const ExercisePage = () => {
   const { user } = useAuthStore();
-  const { getAllExercise, exercises, pages, loading } = useExerciseStore();
+  const { getExercisesPerPage, exercises, pages, loading } = useExerciseStore();
   const [openManageExerciseDialog, setOpenManageExerciseDialog] =
     useState(false);
   const [exerciseToEdit, setExerciseToEdit] = useState(null);
@@ -25,8 +25,8 @@ const ExercisePage = () => {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    getAllExercise(page, 8, selectedGroup);
-  }, [getAllExercise, page, selectedGroup]);
+    getExercisesPerPage(page, 8, selectedGroup);
+  }, [getExercisesPerPage, page, selectedGroup]);
 
   const handleEditExercise = (exercise) => {
     setExerciseToEdit(exercise);

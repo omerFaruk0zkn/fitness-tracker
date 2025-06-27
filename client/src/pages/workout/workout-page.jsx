@@ -48,7 +48,7 @@ const WorkoutPage = () => {
 
   return (
     <div className="p-4 space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
         <h1 className="font-bold text-base sm:text-xl text-secondary-foreground">
           Günün Antrenman Egzersizleri
         </h1>
