@@ -24,8 +24,6 @@ const ExercisePage = () => {
   const [selectedGroup, setSelectedGroup] = useState("Tümü");
   const [page, setPage] = useState(1);
 
-  console.log(pages);
-
   useEffect(() => {
     getAllExercise(page, 8, selectedGroup);
   }, [getAllExercise, page, selectedGroup]);

@@ -26,6 +26,7 @@ const ManageExerciseDialog = ({
     description: exerciseToEdit?.description || "",
     muscleGroup: exerciseToEdit?.muscleGroup || "",
     video: exerciseToEdit?.video?.url || null,
+    image: exerciseToEdit?.image?.url || null,
   };
 
   const addExerciseSchema = Yup.object({
@@ -37,6 +38,9 @@ const ManageExerciseDialog = ({
     video: isEditMode
       ? Yup.mixed()
       : Yup.mixed().required("Egzersiz videosu zorunlu"),
+    image: isEditMode
+      ? Yup.mixed()
+      : Yup.mixed().required("Egzersiz resmi zorunlu"),
   });
 
   const handleAddExercise = (values, actions) => {
@@ -44,8 +48,13 @@ const ManageExerciseDialog = ({
     formData.append("name", values.name);
     formData.append("description", values.description);
     formData.append("muscleGroup", values.muscleGroup);
+
     if (values.video instanceof File) {
       formData.append("video", values.video);
+    }
+
+    if (values.image instanceof File) {
+      formData.append("image", values.image);
     }
 
     const action = isEditMode

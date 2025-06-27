@@ -19,12 +19,6 @@ const fileFilter = (allowedExtensions) => {
   };
 };
 
-export const uploadVideo = multer({
-  storage,
-  fileFilter: fileFilter([".mp4", ".mov", ".avi"]),
-  limits: { fileSize: 50 * 1024 * 1024 },
-});
-
 export const uploadImage = multer({
   storage,
   fileFilter: fileFilter([".jpg", ".jpeg", ".png", ".webp"]),

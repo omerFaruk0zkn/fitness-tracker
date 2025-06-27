@@ -6,17 +6,27 @@ import { deleteFile, uploadFile } from "../utils/manageFile.js";
 export const createExercise = asyncHandler(async (req, res) => {
   const { name, description, muscleGroup } = req.body;
 
-  if (!req.file) throw new AppError(400, "Video dosyası gerekli");
+  const videoFile = req.files?.video?.[0];
+  if (!videoFile) throw new AppError(400, "Video dosyası gerekli");
 
-  const uploadResult = await uploadFile(req.file.path, "video", "exercises");
+  const videoUpload = await uploadFile(videoFile.path, "video", "exercises");
+
+  const imageFile = req.files?.image?.[0];
+  if (!imageFile) throw new AppError(400, "Resim dosyası gerekli");
+
+  const imageUpload = await uploadFile(imageFile.path, "image", "images");
 
   const newExercise = await Exercise.create({
     name,
     description,
     muscleGroup,
     video: {
-      url: uploadResult.secure_url,
-      publicId: uploadResult.public_id,
+      url: videoUpload.secure_url,
+      publicId: videoUpload.public_id,
+    },
+    image: {
+      url: imageUpload.secure_url,
+      publicId: imageUpload.public_id,
     },
   });
 
@@ -57,18 +67,38 @@ export const updateExercise = asyncHandler(async (req, res) => {
   if (description !== undefined) updateData.description = description;
   if (muscleGroup !== undefined) updateData.muscleGroup = muscleGroup;
 
-  if (req.file) {
-    const exercise = await Exercise.findById(exerciseId);
-    if (!exercise) throw new AppError(404, "Egzersiz bulunamadı");
+  const exercise = await Exercise.findById(exerciseId);
+  if (!exercise) throw new AppError(404, "Egzersiz bulunamadı");
 
+  if (req.files?.video?.[0]) {
     if (exercise.video?.publicId) {
       await deleteFile(exercise.video.publicId, "video");
     }
 
-    const uploadResult = await uploadFile(req.file.path, "video", "exercises");
+    const videoUpload = await uploadFile(
+      req.files.video[0].path,
+      "video",
+      "exercises"
+    );
     updateData.video = {
-      url: uploadResult.secure_url,
-      publicId: uploadResult.public_id,
+      url: videoUpload.secure_url,
+      publicId: videoUpload.public_id,
+    };
+  }
+
+  if (req.files?.image?.[0]) {
+    if (exercise.image?.publicId) {
+      await deleteFile(exercise.image.publicId, "image");
+    }
+
+    const imageUpload = await uploadFile(
+      req.files.image[0].path,
+      "image",
+      "images"
+    );
+    updateData.image = {
+      url: imageUpload.secure_url,
+      publicId: imageUpload.public_id,
     };
   }
 
@@ -96,7 +126,13 @@ export const deleteExercise = asyncHandler(async (req, res) => {
   const exercise = await Exercise.findById(exerciseId);
   if (!exercise) throw new AppError(404, "Egzersiz bulunamadı");
 
-  await deleteFile(exercise.video.publicId, "video");
+  if (exercise.video?.publicId) {
+    await deleteFile(exercise.video.publicId, "video");
+  }
+
+  if (exercise.image?.publicId) {
+    await deleteFile(exercise.image.publicId, "image");
+  }
 
   await Exercise.findByIdAndDelete(exerciseId);
 

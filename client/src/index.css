@@ -122,7 +122,12 @@
     @apply w-full px-4 py-2 border border-gray-300 rounded-lg;
   }
 
-  .rdp-years_dropdown, .rdp-months_dropdown {
-    @apply bg-secondary text-secondary-foreground
+  .rdp-years_dropdown,
+  .rdp-months_dropdown {
+    @apply bg-secondary text-secondary-foreground;
   }
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
 }

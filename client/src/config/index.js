@@ -151,6 +151,14 @@ export const MANAGE_EXERCISE_CONTROLS = [
     type: "file",
   },
   {
+    name: "image",
+    label: "Egzersiz Görseli",
+    placeholder: "Egzersiz resmi seçiniz",
+    componentType: "input",
+    accept: "image/*",
+    type: "file",
+  },
+  {
     name: "name",
     label: "Egzersiz Başlık",
     placeholder: "Egzersiz başlığını giriniz",

@@ -5,21 +5,16 @@ import {
   getAllExercises,
   updateExercise,
 } from "../controllers/exercise.controller.js";
-import { uploadVideo } from "../middlewares/upload.middleware.js";
+import { uploadBoth } from "../middlewares/uploadMixed.middleware.js";
 import { isAdmin, protect } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
 router.use(protect);
 
-router.post("/", isAdmin, uploadVideo.single("video"), createExercise);
+router.post("/", isAdmin, uploadBoth, createExercise);
 router.get("/", getAllExercises);
-router.put(
-  "/:exerciseId",
-  isAdmin,
-  uploadVideo.single("video"),
-  updateExercise
-);
+router.put("/:exerciseId", isAdmin, uploadBoth, updateExercise);
 router.delete("/:exerciseId", isAdmin, deleteExercise);
 
 export default router;

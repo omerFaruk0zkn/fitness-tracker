@@ -3,7 +3,7 @@ import { MUSCLE_GROUP_ITEMS } from "@/config";
 
 const ExerciseFilter = ({ selectedGroup, setSelectedGroup }) => {
   return (
-    <div className="flex overflow-x-auto gap-2 pb-2">
+    <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-hidden">
       {MUSCLE_GROUP_ITEMS.map((groupItem) => (
         <Button
           key={groupItem}

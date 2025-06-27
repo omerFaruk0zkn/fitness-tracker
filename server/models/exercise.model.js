@@ -16,6 +16,10 @@ const exerciseSchema = new mongoose.Schema(
       url: { type: String, required: true },
       publicId: { type: String },
     },
+    image: {
+      url: { type: String },
+      publicId: { type: String },
+    },
   },
   { timestamps: true }
 );

@@ -45,13 +45,26 @@ const CommonForm = ({
     return null;
   }, [values.video, existingVideoUrl]);
 
+  const exerciseImagePreview = useMemo(() => {
+    if (values.image instanceof File) {
+      return URL.createObjectURL(values.image);
+    }
+    if (typeof values.image === "string") {
+      return values.image;
+    }
+    return null;
+  }, [values.image]);
+
   useEffect(() => {
     return () => {
       if (values.video instanceof File) {
         URL.revokeObjectURL(videoPreview);
       }
+      if (values.image instanceof File) {
+        URL.revokeObjectURL(exerciseImagePreview);
+      }
     };
-  }, [videoPreview, values.video]);
+  }, [videoPreview, exerciseImagePreview, values.video, values.image]);
 
   const renderInputsByComponentType = (item) => {
     const value = getIn(values, item.name) || "";
@@ -81,7 +94,8 @@ const CommonForm = ({
 
           return (
             <>
-              {(profileImgPreview || (values.video && videoPreview)) && (
+              {/* PROFILE IMAGE Preview */}
+              {profileImgPreview && (
                 <div className="relative w-fit">
                   {values.profileImg && (
                     <img
@@ -90,15 +104,17 @@ const CommonForm = ({
                       className="size-16 object-cover rounded-full mb-2"
                     />
                   )}
+                </div>
+              )}
 
-                  {videoPreview && (
-                    <video
-                      src={videoPreview}
-                      controls
-                      className="aspect-video max-w-xs w-full rounded-md shadow-md"
-                    />
-                  )}
-
+              {/* EXERCISE IMAGE Preview */}
+              {item.name === "image" && exerciseImagePreview && (
+                <div className="relative w-fit mb-2">
+                  <img
+                    src={exerciseImagePreview}
+                    alt="Seçilen görsel"
+                    className="size-32 object-cover rounded-md shadow"
+                  />
                   <Trash
                     onClick={() => {
                       setFieldValue(item.name, "");
@@ -106,11 +122,27 @@ const CommonForm = ({
                         fileInputRefs.current[item.name].value = "";
                       }
                     }}
-                    className={`${
-                      values.profileImg ? "size-5" : "size-7"
-                    } absolute ${
-                      values.profileImg ? "-top-1 -right-1" : "-top-2 -right-2"
-                    } bg-destructive text-accent p-1 rounded-full hover:scale-105 hover:cursor-pointer`}
+                    className="absolute -top-2 -right-2 size-5 bg-destructive text-accent p-1 rounded-full hover:scale-105 hover:cursor-pointer"
+                  />
+                </div>
+              )}
+
+              {/* VIDEO Preview */}
+              {item.name === "video" && videoPreview && (
+                <div className="relative w-fit mb-2">
+                  <video
+                    src={videoPreview}
+                    controls
+                    className="aspect-video max-w-xs w-full rounded-md shadow"
+                  />
+                  <Trash
+                    onClick={() => {
+                      setFieldValue(item.name, "");
+                      if (fileInputRefs.current[item.name]) {
+                        fileInputRefs.current[item.name].value = "";
+                      }
+                    }}
+                    className="absolute -top-2 -right-2 size-7 bg-destructive text-accent p-1 rounded-full hover:scale-105 hover:cursor-pointer"
                   />
                 </div>
               )}

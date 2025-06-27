@@ -37,7 +37,9 @@ const ExerciseCard = ({ exercise, onEdit }) => {
   return (
     <Card className="max-w-sm">
       <CardHeader>
-        <CardTitle className="font-bold text-base sm:text-lg">{exercise.name}</CardTitle>
+        <CardTitle className="font-bold text-base sm:text-lg">
+          {exercise.name}
+        </CardTitle>
 
         {exercise.description && (
           <Popover>
@@ -95,6 +97,7 @@ const ExerciseCard = ({ exercise, onEdit }) => {
             width="100%"
             height="100%"
             className="absolute inset-0"
+            light={exercise.image?.url || true}
           />
         </div>
       </CardContent>
