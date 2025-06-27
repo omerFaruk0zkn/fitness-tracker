@@ -21,21 +21,14 @@ const ExercisePage = () => {
   const [openManageExerciseDialog, setOpenManageExerciseDialog] =
     useState(false);
   const [exerciseToEdit, setExerciseToEdit] = useState(null);
-  const [filtered, setFiltered] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState("Tümü");
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    getAllExercise(page);
-  }, [getAllExercise, page]);
+  console.log(pages);
 
   useEffect(() => {
-    if (selectedGroup === "Tümü") {
-      setFiltered(exercises);
-    } else {
-      setFiltered(exercises.filter((ex) => ex.muscleGroup === selectedGroup));
-    }
-  }, [selectedGroup, exercises]);
+    getAllExercise(page, 8, selectedGroup);
+  }, [getAllExercise, page, selectedGroup]);
 
   const handleEditExercise = (exercise) => {
     setExerciseToEdit(exercise);
@@ -61,16 +54,14 @@ const ExercisePage = () => {
         )}
       </div>
 
-      {exercises && exercises.length > 0 && (
-        <ExerciseFilter
-          selectedGroup={selectedGroup}
-          setSelectedGroup={setSelectedGroup}
-        />
-      )}
+      <ExerciseFilter
+        selectedGroup={selectedGroup}
+        setSelectedGroup={setSelectedGroup}
+      />
 
       {exercises && exercises.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {filtered.map((exercise) => (
+          {exercises.map((exercise) => (
             <ExerciseCard
               key={exercise._id}
               exercise={exercise}

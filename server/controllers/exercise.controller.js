@@ -28,11 +28,15 @@ export const createExercise = asyncHandler(async (req, res) => {
 export const getAllExercises = asyncHandler(async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 8;
+  const muscleGroup = req.query.muscleGroup;
+
+  const query = muscleGroup && muscleGroup !== "Tümü" ? { muscleGroup } : {};
+
   const skip = (page - 1) * limit;
 
   const [exercises, total] = await Promise.all([
-    Exercise.find().sort({ createdAt: -1 }).skip(skip).limit(limit),
-    Exercise.countDocuments(),
+    Exercise.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit),
+    Exercise.find(query).countDocuments(),
   ]);
 
   res.json({

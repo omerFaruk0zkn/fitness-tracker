@@ -32,11 +32,18 @@ export const useExerciseStore = create((set) => ({
     }
   },
 
-  getAllExercise: async (page = 1, limit = 8) => {
+  getAllExercise: async (page = 1, limit = 8, muscleGroup = "Tümü") => {
     set({ loading: true });
 
     try {
-      const res = await api.get(`/exercises?page=${page}&limit=${limit}`);
+      const query =
+        muscleGroup && muscleGroup !== "Tümü"
+          ? `&muscleGroup=${encodeURIComponent(muscleGroup)}`
+          : "";
+
+      const res = await api.get(
+        `/exercises?page=${page}&limit=${limit}${query}`
+      );
 
       set({
         exercises: res.data.exercises,
