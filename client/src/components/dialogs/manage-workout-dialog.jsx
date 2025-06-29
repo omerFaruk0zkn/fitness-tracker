@@ -120,6 +120,7 @@ const ManageWorkoutDialog = ({
         id: e._id,
         label: e.name,
         image: e.image?.url,
+        muscleGroup: e.muscleGroup,
       })),
     [allExercises]
   );

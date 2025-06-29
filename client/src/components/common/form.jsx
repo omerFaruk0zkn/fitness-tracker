@@ -4,13 +4,8 @@ import { getIn } from "formik";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
+import { Badge } from "../ui/badge";
 import { Textarea } from "../ui/textarea";
 import CalendarField from "../forms/calendar-field";
 
@@ -203,7 +198,7 @@ const CommonForm = ({
                       );
                       if (!selected) return null;
                       return (
-                        <>
+                        <div className="flex items-center gap-3">
                           {selected.image && (
                             <img
                               src={selected.image}
@@ -212,7 +207,10 @@ const CommonForm = ({
                             />
                           )}
                           <span>{selected.label}</span>
-                        </>
+                          <Badge className="text-xs">
+                            {selected.muscleGroup}
+                          </Badge>
+                        </div>
                       );
                     })()}
                   </>
@@ -231,7 +229,7 @@ const CommonForm = ({
                     <SelectItem
                       key={selectItem.id}
                       value={selectItem.id}
-                      className="flex items-center gap-3 py-2"
+                      className="flex items-center gap-3 py-2 !w-[calc(100vw-2rem)] max-w-lg"
                     >
                       {selectItem.image && (
                         <img
@@ -241,6 +239,9 @@ const CommonForm = ({
                         />
                       )}
                       <span className="text-sm">{selectItem.label}</span>
+                      <Badge className="text-xs">
+                        {selectItem.muscleGroup}
+                      </Badge>
                     </SelectItem>
                   ))
                 : null}

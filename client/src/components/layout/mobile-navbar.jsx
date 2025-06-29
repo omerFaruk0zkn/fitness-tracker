@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Menu } from "lucide-react";
 import {
   Sheet,
@@ -25,7 +25,13 @@ const MobileNavbar = ({ handleLogout, setOpenEditDialog }) => {
         <SheetContent side="left" className="max-w-[250px]">
           <SheetHeader>
             <SheetTitle className="text-secondary-foreground">
-              Fitness Tracker
+              <Link
+                to="/"
+                className="text-xl font-bold"
+                onClick={() => setOpenMobileNavbar(false)}
+              >
+                Fitness Tracker
+              </Link>
             </SheetTitle>
             <SheetDescription>Uygulamayı keşfedin</SheetDescription>
           </SheetHeader>

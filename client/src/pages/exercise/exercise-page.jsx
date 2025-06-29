@@ -55,6 +55,7 @@ const ExercisePage = () => {
       <ExerciseFilter
         selectedGroup={selectedGroup}
         setSelectedGroup={setSelectedGroup}
+        setPage={setPage}
       />
 
       {exercises && exercises.length > 0 ? (
@@ -76,11 +77,13 @@ const ExercisePage = () => {
       {pages > 1 && (
         <Pagination>
           <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-              />
-            </PaginationItem>
+            {page !== 1 && (
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                />
+              </PaginationItem>
+            )}
 
             {[...Array(pages)].map((_, i) => (
               <PaginationItem key={i}>
@@ -97,11 +100,13 @@ const ExercisePage = () => {
               </PaginationItem>
             ))}
 
-            <PaginationItem>
-              <PaginationNext
-                onClick={() => setPage((prev) => Math.min(prev + 1, pages))}
-              />
-            </PaginationItem>
+            {page !== pages && (
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => setPage((prev) => Math.min(prev + 1, pages))}
+                />
+              </PaginationItem>
+            )}
           </PaginationContent>
         </Pagination>
       )}
